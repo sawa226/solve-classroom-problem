@@ -27,36 +27,28 @@ int ** makeMass(size_t m, size_t n)
   return Mass;
 }
 
-int transpone(int ** Mass, size_t m, size_t n)
+int ** transpone(int ** Mass, size_t m, size_t n)
 {
-  return 1;
-}
-
-
-int main() 
-{
-  size_t n = 0;
-  size_t m = 0;
-  std::cin >> m >> n;
-  if (!std::cin)
+  int ** Mass2 = nullptr;
+  try
   {
-    return 1;
+    Mass2 = makeMass(n,m);
+  } catch (const std::bad_alloc & e)
+  {
+    throw;
   }
-  int ** Mass = nullptr;
-  Mass = makeMass(m, n);
-
-  for (size_t i = 0; i < m; i++)
+  for (size_t i = 0; i < n; i++)
   {
-    for (size_t j = 0; j < n; j++)
+    for (size_t j = 0; j < m; j++)
     {
-      std::cin >> Mass[i][j];
+      Mass2[i][j] = Mass[j][i];
     }
   }
-  if (!std::cin) {
-    return 1;
-  }
+  return Mass2;
+}
 
-
+void vivod(int ** Mass, size_t m, size_t n)
+{ 
   std::cout << Mass[0][0];
   for (size_t i = 1; i < n; i++)
   {
@@ -71,5 +63,42 @@ int main()
       std::cout << " " << Mass[i][j]; 
     }
   }
-  std::cout << "\n";
+}
+
+int main() 
+{
+  size_t n = 0;
+  size_t m = 0;
+  std::cin >> m >> n;
+  if (!std::cin)
+  {
+    return 1;
+  }
+  int ** Mass = nullptr;
+  try
+  {
+  Mass = makeMass(m, n);
+  } catch (const std::bad_alloc & e)
+  {
+    return 2;
+  }
+  for (size_t i = 0; i < m; i++)
+  {
+    for (size_t j = 0; j < n; j++)
+    {
+      std::cin >> Mass[i][j];
+    }
+  }
+  if (!std::cin) {
+    return 1;
+  }
+  
+  try
+  {
+    Mass = transpone(Mass, m, n);
+  } catch (const std::bad_alloc & e)
+  {
+    return 2;
+  }
+  vivod(Mass, n, m);
 }
