@@ -1,20 +1,20 @@
-#include <iostrem>
+#include <iostream>
 
-void rmMtx(int ** Mass, int m)
+void remove(int ** Mass, int m)
 { 
   for (size_t i = 0; i < m; i++)
   {
-    delete [] mtx[i];
+    delete [] Mass[i];
   }
-  delete [] mtx;
+  delete [] Mass;
 }
 
 
 int ** makeMass(size_t m, size_t n)
 {
+  int ** Mass = new int * [m];
   try
   {
-    int ** Mass = new int * [m];
     for (size_t i = 0; i < m; i++)
     {
       Mass[i] = new int [n];
@@ -24,11 +24,12 @@ int ** makeMass(size_t m, size_t n)
     remove(Mass, m);
     throw;
   }
-  return Mass; 
+  return Mass;
 }
 
-int ** transpone(int ** Mass, size_t m, size_t n)
+int transpone(int ** Mass, size_t m, size_t n)
 {
+  return 1;
 }
 
 
@@ -36,33 +37,36 @@ int main()
 {
   size_t n = 0;
   size_t m = 0;
-  std::cin >> n >> m;
+  std::cin >> m >> n;
   if (!std::cin)
   {
     return 1;
   }
   int ** Mass = nullptr;
-  Mass = makeMass(Mass, m, n);
+  Mass = makeMass(m, n);
 
-  for (size_t i = 0; i < m*n; i++)
+  for (size_t i = 0; i < m; i++)
   {
-    std::cin >> Mass[i%m][i/m];
+    for (size_t j = 0; j < n; j++)
+    {
+      std::cin >> Mass[i][j];
+    }
   }
   if (!std::cin) {
     return 1;
   }
-  Mass = transpone();
+
 
   std::cout << Mass[0][0];
-  for (size_t i = 1; i < m; i++)
+  for (size_t i = 1; i < n; i++)
   {
     std::cout << " " << Mass[0][i];
   }
 
-  for (size_t i = 1; i < n; i++)
+  for (size_t i = 1; i < m; i++)
   {
     std::cout << '\n' << Mass[i][0];
-    for (size_t j = 1; j < m; j++)
+    for (size_t j = 1; j < n; j++)
     {
       std::cout << " " << Mass[i][j]; 
     }
