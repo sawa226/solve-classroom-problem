@@ -1,4 +1,5 @@
 #include <iostream>
+#include "convertFunc.h"
 
 void remove(int ** Mass, int m)
 { 
